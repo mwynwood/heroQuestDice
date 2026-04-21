@@ -1,0 +1,126 @@
+<!-- Shout out to: https://gist.github.com/jwygralak67/a7c6844bb175916287c6f780eecca549 -->
+<html>
+
+<head>
+  <style>
+    body {
+      background-color: black;
+      text-align: center;
+    }
+
+    input {
+      border-style: none;
+      border-bottom-style: solid;
+      border-width: thin;
+    }
+
+    div {
+      border: solid thin black;
+      text-align: center;
+    }
+
+    .dice {
+      width: 300px;
+      height: 300px;
+      padding: 20px;
+      background: white;
+      border: solid thick black;
+      border-radius: 25px;
+      display: inline-block;
+    }
+
+    button {
+      background-color: red;
+      border: none;
+      color: white;
+      padding: 20px 30px;
+      margin: 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+
+  <script>
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    const waitTime = 2000;
+
+    async function rollem(numberOfDice) {
+      const output = document.getElementById('output');
+      output.innerHTML = ""; // Clear old dice
+
+      for (let i = 0; i < numberOfDice; i++) {
+        // Create a "rolling" placeholder
+        const dieImg = document.createElement('img');
+        dieImg.src = 'dice-six-faces-animated.gif'; // Starting face
+        dieImg.className = 'dice';
+        output.appendChild(dieImg);
+        // Wait for suspense
+        await wait(waitTime);
+        // Roll the dice!
+        const r = Math.floor(Math.random() * 6 + 1);
+        console.log(r);
+        dieImg.src = `dice-six-faces-${r}.png`;
+      }
+    }
+
+    // The Combat Dice are 6-sided dice with pictographs on the sides instead of numbers.
+    // Each die has 3 skulls, 2 white shields and 1 black shield.
+    async function rollCombat(numberOfDice) {
+      const output = document.getElementById('output');
+      output.innerHTML = ""; // Clear old dice
+      for (let i = 0; i < numberOfDice; i++) {
+        // Create a "rolling" placeholder
+        const dieImg = document.createElement('img');
+        dieImg.src = 'combat-dice-animated.gif'; // Starting face
+        dieImg.className = 'dice';
+        output.appendChild(dieImg);
+        // Wait for suspense
+        await wait(waitTime);
+        // Work out what face to show and show the results
+        const r = Math.floor(Math.random() * 6 + 1);
+        console.log(r);
+        switch (r) {
+          case 1:
+          case 2:
+          case 3:
+            dieImg.src = "combat-dice-skull.png";
+            break;
+          case 4:
+          case 5:
+            dieImg.src = "combat-dice-whiteshield.png";
+            break;
+          case 6:
+            dieImg.src = "combat-dice-blackshield.png";
+            break;
+          default:
+            dieImg.src = "combat-dice-animated.gif";
+        }
+      }
+    }
+
+    function clearme() {
+      document.getElementById('output').innerHTML = "";
+    }
+  </script>
+</head>
+
+<body>
+
+  <img src="HeroQuest.png">
+
+  <div id="control">
+    <button id="roll" onclick="clearme();rollem(2, 6)">ROLL 2 MOVEMENT DICE</button><br>
+    <button id="roll" onclick="clearme();rollCombat(1)">ROLL 1 COMBAT DICE</button>
+    <button id="roll" onclick="clearme();rollCombat(2)">ROLL 2 COMBAT DICE</button>
+    <button id="roll" onclick="clearme();rollCombat(3)">ROLL 3 COMBAT DICE</button>
+    <button id="roll" onclick="clearme();rollCombat(4)">ROLL 4 COMBAT DICE</button>
+  </div>
+
+  <div id="output"></div>
+
+</body>
+
+</html>
